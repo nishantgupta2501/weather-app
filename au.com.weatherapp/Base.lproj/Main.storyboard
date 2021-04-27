@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BUA-eJ-yCs">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Weather Summary Table View Controller-->
+        <scene sceneID="fec-HP-Kvf">
+            <objects>
+                <tableViewController id="sQj-J4-I5y" customClass="WeatherSummaryTableViewController" customModule="au_com_weatherapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="pxi-kr-6Da"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yZu-IE-Xu7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1837.68115942029" y="-143.30357142857142"/>
+        </scene>
+        <!--Add City-->
+        <scene sceneID="4eG-5Z-Q7R">
+            <objects>
+                <viewController storyboardIdentifier="AddCity" id="RX7-tf-d7C" customClass="AddCityViewController" customModule="au_com_weatherapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K39-op-pa5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5xt-UK-1Np">
+                                <rect key="frame" x="0.0" y="60" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="auH-c7-cDy">
+                                <rect key="frame" x="8" y="116" width="414" height="764"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rFf-t1-h83"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="auH-c7-cDy" firstAttribute="top" secondItem="5xt-UK-1Np" secondAttribute="bottom" id="432-bT-fKa"/>
+                            <constraint firstItem="5xt-UK-1Np" firstAttribute="top" secondItem="rFf-t1-h83" secondAttribute="top" constant="16" id="DqP-29-nVm"/>
+                            <constraint firstItem="auH-c7-cDy" firstAttribute="leading" secondItem="rFf-t1-h83" secondAttribute="leading" constant="8" id="KNd-qp-sR8"/>
+                            <constraint firstItem="5xt-UK-1Np" firstAttribute="leading" secondItem="rFf-t1-h83" secondAttribute="leading" id="M8Z-ZQ-6dj"/>
+                            <constraint firstAttribute="bottom" secondItem="auH-c7-cDy" secondAttribute="bottom" constant="16" id="ROg-ml-VOv"/>
+                            <constraint firstItem="5xt-UK-1Np" firstAttribute="trailing" secondItem="rFf-t1-h83" secondAttribute="trailing" id="ZJB-rJ-naY"/>
+                            <constraint firstItem="auH-c7-cDy" firstAttribute="trailing" secondItem="rFf-t1-h83" secondAttribute="trailing" constant="8" id="nOD-Sv-ZqP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add City" id="v6Z-vT-oAU">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="ca3-si-3Pu">
+                            <connections>
+                                <action selector="cancelAction:" destination="RX7-tf-d7C" id="361-R9-amA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="5xt-UK-1Np" id="KqS-TH-5Ru"/>
+                        <outlet property="tableView" destination="auH-c7-cDy" id="DSK-HD-Mqh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lXV-hS-Fcw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2808.6956521739135" y="-138.61607142857142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="KFP-kh-RHb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="BUA-eJ-yCs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m0Y-yh-Z2H">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="sQj-J4-I5y" kind="relationship" relationship="rootViewController" id="VMX-Zz-MvR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DNr-FH-tfR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="927.536231884058" y="-143.30357142857142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
