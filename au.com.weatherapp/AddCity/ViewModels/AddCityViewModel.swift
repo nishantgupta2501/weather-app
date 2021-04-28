@@ -13,15 +13,17 @@ protocol AddCityViewModelProtocol: AnyObject {
 
 class AddCityViewModel {
     weak var delegate: AddCityViewModelProtocol?
-
+    private let weatherService: WeatherService
+    
     init() {
+        weatherService = WeatherService()
         fetchCityInfo()
     }
 
     // MARK: - private methods
     private func fetchCityInfo() {
         DispatchQueue.global(qos: .userInteractive).async {
-            WeatherService().fetchCityList(withfileName: "citylist") { [weak self] result in
+            self.weatherService.fetchCityList(withfileName: "citylist") { [weak self] result in
                 DispatchQueue.main.async {
                     switch result {
                     case let .success(list) :

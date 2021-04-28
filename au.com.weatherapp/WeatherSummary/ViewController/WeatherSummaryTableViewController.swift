@@ -64,8 +64,10 @@ extension WeatherSummaryTableViewController {
     }
 
     override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let bpayBiller = filteredBpayList?[indexPath.row] else { return }
-//        delegate?.didSelectAtRow(bpayBiller: bpayBiller)
+        guard let weatherDetailViewController = mainStoryBoard.instantiateViewController(withIdentifier: "WeatherDetails") as? WeatherDetailViewController
+        else { return }
+   //        weatherDetailViewController.detailViewModel = WeatherDetailViewModel(weatherInfo: //viewModel.weatherInfo[indexPath.row])
+        navigationController?.pushViewController(weatherDetailViewController, animated: true)
     }
 }
 

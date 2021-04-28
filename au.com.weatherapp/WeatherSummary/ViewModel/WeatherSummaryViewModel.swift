@@ -18,8 +18,10 @@ class WeatherSummaryViewModel {
     private var cityIds: [String] = []
     private var periodicTimer: Timer!
     private let timePeriod = 60
+    private let weatherService: WeatherService
     
     init() {
+        weatherService = WeatherService()
         periodicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(timePeriod), target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
         loadCities()
     }
@@ -41,15 +43,15 @@ class WeatherSummaryViewModel {
     
     func callWeatherAPI() {
         weatherInfo.forEach { weather in
-            WeatherService().getWeatherByCity(cityId: weather.cityID) { [weak self] result in
+            weatherService.getWeatherByCity(cityId: weather.cityID) { [weak self] result in
                 guard let self = self,
                     let row = self.weatherInfo.firstIndex(where: {$0.cityID == weather.cityID})
                     else { return }
                 switch(result) {
                 case let .success(weatherResponse) :
                     self.weatherInfo[row].isLoading = false
-                    self.weatherInfo[row].temperature = weatherResponse.weather.temperature
-                    self.weatherInfo[row].cityName = weatherResponse.name
+                    self.weatherInfo[row].temperature = weatherResponse.main?.temp
+                    self.weatherInfo[row].cityName = weatherResponse.name ?? ""
                     DispatchQueue.main.async {
                         self.delegate?.refreshWeatherData(for: row)
                     }
