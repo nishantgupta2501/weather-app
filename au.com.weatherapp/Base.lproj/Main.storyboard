@@ -56,6 +56,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="containerView" destination="K39-op-pa5" id="iry-TG-RHM"/>
                         <outlet property="searchBar" destination="5xt-UK-1Np" id="KqS-TH-5Ru"/>
                         <outlet property="tableView" destination="auH-c7-cDy" id="DSK-HD-Mqh"/>
                     </connections>

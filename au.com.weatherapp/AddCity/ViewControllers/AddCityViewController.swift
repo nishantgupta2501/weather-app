@@ -18,21 +18,32 @@ protocol AddCitiesDelegate {
 class AddCityViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    var filteredList: [CityListResponse] = [CityListResponse]()
-    var cityList: [CityListResponse] = [CityListResponse]()
-    var delegate: AddCitiesDelegate?
-    var searchActive: Bool = false
+    @IBOutlet var containerView: UIView!
     var viewModel = AddCityViewModel()
-    var selectedCityIds: [Int] = []
-    var initialSelectedCities: Int = 0
+    var delegate: AddCitiesDelegate?
+    
+    // MARK: private variables
+    private let activityIndicator = UIActivityIndicatorView()
+    private var filteredList: [CityListResponse] = [CityListResponse]()
+    private var cityList: [CityListResponse] = [CityListResponse]()
+    private var searchActive: Bool = false
+    private var selectedCityIds: [Int] = []
+    private var initialSelectedCities: Int = 0
 
+    // MARK: Viewlifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        showLoading()
         self.setUpUI()
         viewModel.delegate = self
         selectedCityIds = StorageAPI.string(forkey: StorageKey.storedCityIds)?.components(separatedBy: ",").map { Int($0) ?? 0 } ?? []
         initialSelectedCities = selectedCityIds.count
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        showLoading()
+//    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -151,8 +162,15 @@ extension AddCityViewController: UITableViewDelegate {
 
 extension AddCityViewController : AddCityViewModelProtocol {
     func loadCityList(cityList: [CityListResponse]) {
+        activityIndicator.stopAnimating()
+        activityIndicator.removeFromSuperview()
         self.cityList = cityList
         filteredList = cityList
         tableView.reloadData()
+    }
+    
+    func showLoading() {
+        containerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
 }
