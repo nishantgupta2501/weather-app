@@ -13,7 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        if (StorageAPI.get(forkey: StorageKey.storedCityIds) == nil) {
+            // TODO: try avoiding hardcoded values
+            StorageAPI.set(string: "4163971,2147714,2174003", forkey: StorageKey.storedCityIds)
+        }
         return true
     }
 
