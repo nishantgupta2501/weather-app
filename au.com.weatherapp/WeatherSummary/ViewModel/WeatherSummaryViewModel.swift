@@ -7,22 +7,36 @@
 
 import Foundation
 
-protocol WeatherSummaryViewModelProtocol: AnyObject {
+protocol WeatherSummaryViewModelDelegate: AnyObject {
     func refreshWeatherData(for row: Int)
+    func reloadWeatherData()
 }
 
 class WeatherSummaryViewModel {
-    var weatherInfo: [CityWeatherInfo]
-    weak var delegate: WeatherSummaryViewModelProtocol?
-    private var cities = ["4163971": "Sydney",
-                          "2147714": "Melbourne",
-                          "2174003": "Brisbane"]
+    var weatherInfo: [CityWeatherInfo] = []
+    weak var delegate: WeatherSummaryViewModelDelegate?
+    private var cityIds: [String] = []
+    private var periodicTimer: Timer!
+    private let timePeriod = 60
     
     init() {
-        weatherInfo = cities.map {
-            CityWeatherInfo(cityID: $0.key, cityName: $0.value, temperature: nil, isLoading: true)
+        periodicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(timePeriod), target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+        loadCities()
+    }
+    
+    @objc private func runTimedCode(_ sender: AnyObject) {
+        weatherInfo.indices.forEach {
+            weatherInfo[$0].isLoading = true
         }
-
+        self.callWeatherAPI()
+        delegate?.reloadWeatherData()
+    }
+    
+    func loadCities() {
+        cityIds = StorageAPI.string(forkey: StorageKey.storedCityIds)?.components(separatedBy: ",") ?? []
+        weatherInfo = cityIds.map {
+            CityWeatherInfo(cityID: $0, cityName: "", temperature: nil, isLoading: true)
+        }
     }
     
     func callWeatherAPI() {
@@ -35,6 +49,7 @@ class WeatherSummaryViewModel {
                 case let .success(weatherResponse) :
                     self.weatherInfo[row].isLoading = false
                     self.weatherInfo[row].temperature = weatherResponse.weather.temperature
+                    self.weatherInfo[row].cityName = weatherResponse.name
                     DispatchQueue.main.async {
                         self.delegate?.refreshWeatherData(for: row)
                     }
@@ -49,7 +64,13 @@ class WeatherSummaryViewModel {
 
 struct CityWeatherInfo {
     let cityID: String
-    let cityName: String
+    var cityName: String
     var temperature: Double?
     var isLoading: Bool
+}
+
+// MARK: - Extensions
+
+extension StorageKey {
+    static let storedCityIds = StorageKey(rawValue: "cityIds", accessControl: .SharedDefault)
 }

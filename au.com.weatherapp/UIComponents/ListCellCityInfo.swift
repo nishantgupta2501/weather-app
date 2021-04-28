@@ -9,9 +9,9 @@ import UIKit
 
 class ListCellCityInfo: UITableViewCell {
     @IBOutlet weak var labelCityName: UILabel!
-    static let cellId = "ListCellCityInfoIdentifier"
+    public static let cellId = "ListCellCityInfoIdentifier"
     
-    var addCitiesModel: CityListResponse? {
+    public var addCitiesModel: CityListResponse? {
         didSet {
             guard let data = addCitiesModel else {
                 return

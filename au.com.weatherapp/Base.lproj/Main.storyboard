@@ -18,7 +18,7 @@
             </objects>
             <point key="canvasLocation" x="1837.68115942029" y="-143.30357142857142"/>
         </scene>
-        <!--Add City-->
+        <!--Add City View Controller-->
         <scene sceneID="4eG-5Z-Q7R">
             <objects>
                 <viewController storyboardIdentifier="AddCity" id="RX7-tf-d7C" customClass="AddCityViewController" customModule="au_com_weatherapp" customModuleProvider="target" sceneMemberID="viewController">
@@ -27,11 +27,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5xt-UK-1Np">
-                                <rect key="frame" x="0.0" y="60" width="414" height="56"/>
+                                <rect key="frame" x="0.0" y="104" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="auH-c7-cDy">
-                                <rect key="frame" x="8" y="116" width="414" height="764"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="auH-c7-cDy">
+                                <rect key="frame" x="8" y="160" width="414" height="720"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -47,8 +47,8 @@
                             <constraint firstItem="auH-c7-cDy" firstAttribute="trailing" secondItem="rFf-t1-h83" secondAttribute="trailing" constant="8" id="nOD-Sv-ZqP"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add City" id="v6Z-vT-oAU">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="ca3-si-3Pu">
+                    <navigationItem key="navigationItem" id="v6Z-vT-oAU">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="ca3-si-3Pu">
                             <connections>
                                 <action selector="cancelAction:" destination="RX7-tf-d7C" id="361-R9-amA"/>
                             </connections>
@@ -61,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lXV-hS-Fcw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2808.6956521739135" y="-138.61607142857142"/>
+            <point key="canvasLocation" x="3718.840579710145" y="-138.61607142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="KFP-kh-RHb">
@@ -80,6 +80,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DNr-FH-tfR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="927.536231884058" y="-143.30357142857142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="36u-Ni-ijp">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uj3-Qa-XgW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BAx-Hc-rCJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="RX7-tf-d7C" kind="relationship" relationship="rootViewController" id="NAN-8D-JR3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qBn-bU-ytN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2808.6956521739135" y="-138.61607142857142"/>
         </scene>
     </scenes>
     <resources>

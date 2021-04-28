@@ -27,19 +27,22 @@ class WeatherSummaryTableViewController: UITableViewController {
         viewModel.callWeatherAPI()
     }
     
+    // MARK: - Private methods
     private func SetupNavigationBar() {
         title = "Weather Summary"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add City", style: .plain, target: self, action: #selector(launchAddCityController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update City", style: .plain, target: self, action: #selector(launchAddCityController))
     }
     
     @objc private func launchAddCityController()
     {
         guard let addCityViewController = mainStoryBoard.instantiateViewController(withIdentifier: "AddCity") as? AddCityViewController
         else { return }
+        addCityViewController.delegate = self
         navigationController?.present(addCityViewController, animated: true, completion: nil)
     }
 }
 
+// MARK: - UITableViewDelegate Setup
 
 extension WeatherSummaryTableViewController {
     
@@ -66,9 +69,22 @@ extension WeatherSummaryTableViewController {
     }
 }
 
-extension WeatherSummaryTableViewController: WeatherSummaryViewModelProtocol {
+// MARK: - ViewModelDelegate implementation
+extension WeatherSummaryTableViewController: WeatherSummaryViewModelDelegate {
     func refreshWeatherData(for row: Int) {
         let indexPath = IndexPath(item: row, section: 0)
         tableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
+    func reloadWeatherData() {
+        tableView.reloadData()
+    }
+}
+
+extension WeatherSummaryTableViewController: AddCitiesDelegate {
+    func reloadCities() {
+        viewModel.loadCities()
+        tableView.reloadData()
+        viewModel.callWeatherAPI()
     }
 }

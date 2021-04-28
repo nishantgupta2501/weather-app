@@ -40,7 +40,7 @@ class ListCellWeatherInfo: UITableViewCell {
             activityIndicator.stopAnimating()
             activityIndicator.removeFromSuperview()
             if let temperature = temperature {
-                temperatureLabel.text = "\(temperature)C"
+                temperatureLabel.text = "\(temperature) °C"
             }
             else {
                 temperatureLabel.text = "Not Available"

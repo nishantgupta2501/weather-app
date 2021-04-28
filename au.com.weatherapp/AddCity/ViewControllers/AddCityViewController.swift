@@ -12,7 +12,7 @@ import CoreLocation
 import UIKit
 
 protocol AddCitiesDelegate {
-    func methodAddCities(_ data: CityListResponse)
+    func reloadCities()
 }
 
 class AddCityViewController: UIViewController {
@@ -23,22 +23,37 @@ class AddCityViewController: UIViewController {
     var delegate: AddCitiesDelegate?
     var searchActive: Bool = false
     var viewModel = AddCityViewModel()
+    var selectedCityIds: [Int] = []
+    var initialSelectedCities: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpUI()
         viewModel.delegate = self
+        selectedCityIds = StorageAPI.string(forkey: StorageKey.storedCityIds)?.components(separatedBy: ",").map { Int($0) ?? 0 } ?? []
+        initialSelectedCities = selectedCityIds.count
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isBeingDismissed {
+            StorageAPI.set(string: (selectedCityIds.map { String($0)} ).joined(separator: ","), forkey: StorageKey.storedCityIds)
+            if selectedCityIds.count !=  initialSelectedCities {
+                delegate?.reloadCities()
+            }
+        }
+    }
+
+    func setUpUI() {
+        title = "Add City"
+        navigationController?.isNavigationBarHidden = false
         tableView.register(UINib(nibName: String(describing: ListCellCityInfo.self),
                                  bundle: Bundle(for: ListCellCityInfo.self)),
                            forCellReuseIdentifier: ListCellCityInfo.cellId)
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
-    }
-
-    func setUpUI() {
-        self.title = "Add City"
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
     @IBAction func cancelAction(_ sender: Any) {
@@ -90,6 +105,8 @@ extension AddCityViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - UITableViewDelegate Setup
+
 extension AddCityViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -104,22 +121,24 @@ extension AddCityViewController: UITableViewDataSource {
             fatalError("AddCitiesCell not found")
         }
         cell.addCitiesModel = filteredList[indexPath.row]
+        if let cityId = filteredList[indexPath.row].id {
+            cell.accessoryType = selectedCityIds.contains(cityId) ? .checkmark : .none
+        }
         return cell
     }
 }
 
 extension AddCityViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let city = filteredList[indexPath.row]
-        if let delegate = self.delegate {
-            delegate.methodAddCities(city)
-            self.dismiss(animated: true)
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = .none
+       if let cityId = filteredList[indexPath.row].id {
+        if selectedCityIds.contains(cityId) {
+            selectedCityIds = selectedCityIds.filter { $0 != cityId }
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+            }
+        else {
+            selectedCityIds.append(cityId)
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            }
         }
     }
 
@@ -127,6 +146,8 @@ extension AddCityViewController: UITableViewDelegate {
         return 55
     }
 }
+
+// MARK: - UISearchBarDelegate ViewModelProtocol
 
 extension AddCityViewController : AddCityViewModelProtocol {
     func loadCityList(cityList: [CityListResponse]) {

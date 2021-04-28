@@ -18,6 +18,7 @@ class AddCityViewModel {
         fetchCityInfo()
     }
 
+    // MARK: - private methods
     private func fetchCityInfo() {
         DispatchQueue.global(qos: .userInteractive).async {
             WeatherService().fetchCityList(withfileName: "citylist") { [weak self] result in
