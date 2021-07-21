@@ -1,14 +1,13 @@
 //
-//  au_com_weatherappTests.swift
+//  WeatherDetailsViewModelTests.swift
 //  au.com.weatherappTests
 //
-//  Created by Nishant K Gupta on 26/4/21.
+//  Created by Nishant Gupta on 22/7/21.
 //
 
 import XCTest
-@testable import au_com_weatherapp
 
-class au_com_weatherappTests: XCTestCase {
+class WeatherDetailsViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
