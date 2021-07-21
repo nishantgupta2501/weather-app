@@ -6,27 +6,43 @@
 //
 
 import XCTest
+@testable import au_com_weatherapp
 
 class WeatherDetailsViewModelTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func testWhenAllFieldsAreAvailable() {
+        let weatherResponse = WeatherResponse(
+            main: Main(
+                humidity: 5,
+                temp_min: -2.0,
+                temp_max: 8.0,
+                temp: 6.5),
+            name: "Sydney",
+            id: 12,
+            weather: [
+            Weather(description: "Chilling day")])
+        let mappedWeatherData = WeatherDetailViewModel(weatherInfo: weatherResponse).mapDetailDataSource()
+        XCTAssertTrue(mappedWeatherData.count == 2, "test case failed, weather info mapping didn't pass")
+        XCTAssertEqual(mappedWeatherData.first?.first?.heading, "Sydney")
+        XCTAssertEqual(mappedWeatherData.first?.first?.value, "Chilling day")
+        XCTAssertEqual(mappedWeatherData[1].count, 3)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testWhenTempDetailsNotAvailable() {
+        let weatherResponse = WeatherResponse(
+            main: Main(
+                humidity: nil,
+                temp_min: nil,
+                temp_max: nil,
+                temp: 6.5),
+            name: "Sydney",
+            id: 12,
+            weather: [
+            Weather(description: "Chilling day")])
+        let mappedWeatherData = WeatherDetailViewModel(weatherInfo: weatherResponse).mapDetailDataSource()
+        XCTAssertTrue(mappedWeatherData.count == 2, "test case failed, weather info mapping didn't pass")
+        XCTAssertEqual(mappedWeatherData.first?.first?.heading, "Sydney")
+        XCTAssertEqual(mappedWeatherData.first?.first?.value, "Chilling day")
+        XCTAssertEqual(mappedWeatherData[1].count, 0)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

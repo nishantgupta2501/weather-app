@@ -10,15 +10,22 @@ import Foundation
 
 /// API to interact with device storage
 class StorageAPI {
-    static let storeProvider: StoreProvider = StoreProviderImplementation()
+    static var storeProvider: StoreProvider?
     
+    static func register(_ storeProvider: StoreProvider) {
+        self.storeProvider = storeProvider
+    }
+    
+    static func deRegister() {
+        self.storeProvider = nil
+    }
     
     /// Method to Store string into a store
     /// - Parameters:
     ///   - value: value to be stored
     ///   - key: key associated with data
     static func set(string value: String, forkey key: StorageKey) {
-        StorageAPI.storeProvider.set(value: Data(value.utf8), forKey: key)
+        storeProvider?.set(value: Data(value.utf8), forKey: key)
     }
     
     
@@ -27,7 +34,7 @@ class StorageAPI {
     ///   - value: value to be stored
     ///   - key: key associated with data
     static func set(data value: Data, forkey key: StorageKey) {
-        StorageAPI.storeProvider.set(value: value, forKey: key)
+        storeProvider?.set(value: value, forKey: key)
     }
     
     
@@ -35,7 +42,7 @@ class StorageAPI {
     /// - Parameter key: Key associated with data
     /// - Returns: String value stored
     static func string(forkey key: StorageKey) -> String? {
-        guard let data = StorageAPI.storeProvider.get(forKey: key) else { return nil }
+        guard let data = storeProvider?.get(forKey: key) else { return nil }
         return String(data: data, encoding: .utf8)
     }
     
@@ -43,6 +50,6 @@ class StorageAPI {
     /// - Parameter key: Key associated with data
     /// - Returns: Data value stored
     static func get(forkey key: StorageKey) -> Data? {
-        return storeProvider.get(forKey: key)
+        return storeProvider?.get(forKey: key)
     }
 }

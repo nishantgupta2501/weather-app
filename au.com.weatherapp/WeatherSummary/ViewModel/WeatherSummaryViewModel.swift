@@ -35,7 +35,7 @@ class WeatherSummaryViewModel {
     }
     
     func loadCities() {
-        cityIds = StorageAPI.string(forkey: StorageKey.storedCityIds)?.components(separatedBy: ",") ?? []
+        cityIds = StorageAPI.string(forkey: .storedCityIds)?.components(separatedBy: ",") ?? []
         weatherInfo = cityIds.map {
             CityWeatherInfo(cityID: $0, cityName: "", temperature: nil, isLoading: true)
         }

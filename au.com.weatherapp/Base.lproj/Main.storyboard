@@ -51,7 +51,7 @@
                     <navigationItem key="navigationItem" id="v6Z-vT-oAU">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="ca3-si-3Pu">
                             <connections>
-                                <action selector="cancelAction:" destination="RX7-tf-d7C" id="361-R9-amA"/>
+                                <action selector="doneButtonTapped:" destination="RX7-tf-d7C" id="xhp-wt-ZBF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

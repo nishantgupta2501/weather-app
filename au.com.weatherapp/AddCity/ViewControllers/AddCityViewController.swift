@@ -23,12 +23,12 @@ class AddCityViewController: UIViewController {
     var delegate: AddCitiesDelegate?
     
     // MARK: private variables
-    private let activityIndicator = UIActivityIndicatorView()
     private var filteredList: [CityListResponse] = [CityListResponse]()
     private var cityList: [CityListResponse] = [CityListResponse]()
     private var searchActive: Bool = false
     private var selectedCityIds: [Int] = []
     private var initialSelectedCities: Int = 0
+    private var loadingAnimation: LoadingAnimation?
 
     // MARK: Viewlifecycle methods
     override func viewDidLoad() {
@@ -40,21 +40,11 @@ class AddCityViewController: UIViewController {
         initialSelectedCities = selectedCityIds.count
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        showLoading()
-//    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if isBeingDismissed {
-            StorageAPI.set(string: (selectedCityIds.map { String($0)} ).joined(separator: ","), forkey: StorageKey.storedCityIds)
-            if selectedCityIds.count !=  initialSelectedCities {
-                delegate?.reloadCities()
-            }
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showLoading()
     }
-
+    
     func setUpUI() {
         title = "Add City"
         navigationController?.isNavigationBarHidden = false
@@ -66,9 +56,13 @@ class AddCityViewController: UIViewController {
         searchBar.delegate = self
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
-
-    @IBAction func cancelAction(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        StorageAPI.set(string: (selectedCityIds.map { String($0)} ).joined(separator: ","), forkey: StorageKey.storedCityIds)
+        if selectedCityIds.count !=  initialSelectedCities {
+            delegate?.reloadCities()
+        }
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -162,15 +156,14 @@ extension AddCityViewController: UITableViewDelegate {
 
 extension AddCityViewController : AddCityViewModelProtocol {
     func loadCityList(cityList: [CityListResponse]) {
-        activityIndicator.stopAnimating()
-        activityIndicator.removeFromSuperview()
+        loadingAnimation?.stopLoading()
         self.cityList = cityList
         filteredList = cityList
         tableView.reloadData()
     }
     
     func showLoading() {
-        containerView.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
+        loadingAnimation = LoadingAnimation()
+        loadingAnimation?.addLoader(to: tableView)
     }
 }

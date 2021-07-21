@@ -40,6 +40,7 @@ class ListCellWeatherInfo: UITableViewCell {
             activityIndicator.stopAnimating()
             activityIndicator.removeFromSuperview()
             if let temperature = temperature {
+                // TODO NG: write formatter for temperature display
                 temperatureLabel.text = "\(temperature) °C"
             }
             else {

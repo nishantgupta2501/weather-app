@@ -23,6 +23,7 @@ class WeatherSummaryTableViewController: UITableViewController {
         tableView.reloadData()
         tableView.delegate = self
         tableView.becomeFirstResponder()
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
         viewModel.delegate = self
         viewModel.callWeatherAPI()
     }
@@ -38,7 +39,7 @@ class WeatherSummaryTableViewController: UITableViewController {
         guard let addCityViewController = mainStoryBoard.instantiateViewController(withIdentifier: "AddCity") as? AddCityViewController
         else { return }
         addCityViewController.delegate = self
-        navigationController?.present(addCityViewController, animated: true, completion: nil)
+        navigationController?.pushViewController(addCityViewController, animated: true)
     }
 }
 

@@ -13,6 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Network.register(NetworkManagerImplementation())
+        StorageAPI.register(StoreProviderImplementation())
         if (StorageAPI.get(forkey: StorageKey.storedCityIds) == nil) {
             // TODO: try avoiding hardcoded values
             StorageAPI.set(string: "4163971,2147714,2174003", forkey: StorageKey.storedCityIds)

@@ -6,27 +6,51 @@
 //
 
 import XCTest
+@testable import au_com_weatherapp
+
+private let networkManager = MockNetworkManager()
+private let storeProvider = MockStoreProvider()
 
 class WeatherSummaryViewModelTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override class func setUp() {
+        Network.register(networkManager)
+        StorageAPI.register(storeProvider)
+    }
+    
+    override class func tearDown() {
+        Network.deRegister()
+        StorageAPI.deRegister()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testSuccess() {
+        networkManager.isSuccess = true
+        networkManager.errorType = nil
+        let viewModel = WeatherSummaryViewModel()
+        viewModel.callWeatherAPI()
+        XCTAssertEqual(viewModel.weatherInfo.count, 1)
+        XCTAssertFalse(viewModel.weatherInfo[0].isLoading)
+        XCTAssert(viewModel.weatherInfo[0].cityName == "Sydney")
+        XCTAssert(viewModel.weatherInfo[0].temperature == 6.5)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func testErrorScenario() {
+        networkManager.isSuccess = false
+        networkManager.errorType = .invalidData
+        let viewModel = WeatherSummaryViewModel()
+        viewModel.callWeatherAPI()
+        XCTAssertEqual(viewModel.weatherInfo.count, 1)
+        XCTAssertFalse(viewModel.weatherInfo[0].isLoading)
+        XCTAssertEqual(viewModel.weatherInfo[0].cityName, "")
+        XCTAssertNil(viewModel.weatherInfo[0].temperature)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testWhenNoCityIDReturnedFromStorage() {
+        storeProvider.cityIds = nil
+        networkManager.isApiCalled = false
+        let viewModel = WeatherSummaryViewModel()
+        viewModel.callWeatherAPI()
+        XCTAssertEqual(viewModel.weatherInfo.count, 0)
+        XCTAssertFalse(networkManager.isApiCalled)
     }
 
 }

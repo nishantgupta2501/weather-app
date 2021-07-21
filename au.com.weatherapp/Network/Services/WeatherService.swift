@@ -14,7 +14,7 @@ class WeatherService {
             completion(.failure(.badUrl))
             return
         }
-        NetworkManager.fetch(for: weatherUrl, completion: completion)
+        Network.fetch(for: weatherUrl, completion: completion)
     }
     
     func fetchCityList(withfileName fileName: String, completion: @escaping ((Result<[CityListResponse], NetworkError>) -> Void)) {
