@@ -16,8 +16,6 @@ protocol AddCitiesDelegate {
 }
 
 class AddCityViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var containerView: UIView!
     var viewModel = AddCityViewModel()
     var delegate: AddCitiesDelegate?
@@ -28,7 +26,9 @@ class AddCityViewController: UIViewController {
     private var searchActive: Bool = false
     private var selectedCityIds: [Int] = []
     private var initialSelectedCities: Int = 0
-    private var loadingAnimation: LoadingAnimation?
+    private var tableView = UITableView()
+    private var searchBar = UISearchBar()
+    private let activityIndicator = UIActivityIndicatorView()
 
     // MARK: Viewlifecycle methods
     override func viewDidLoad() {
@@ -53,8 +53,15 @@ class AddCityViewController: UIViewController {
                            forCellReuseIdentifier: ListCellCityInfo.cellId)
         tableView.delegate = self
         tableView.dataSource = self
-        searchBar.delegate = self
+        tableView.isScrollEnabled = true
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        searchBar.searchBarStyle = .prominent
+        searchBar.placeholder = " Search..."
+        searchBar.sizeToFit()
+        searchBar.setShowsCancelButton(true, animated: false)
+        searchBar.isTranslucent = false
+        searchBar.delegate = self
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
@@ -156,14 +163,29 @@ extension AddCityViewController: UITableViewDelegate {
 
 extension AddCityViewController : AddCityViewModelProtocol {
     func loadCityList(cityList: [CityListResponse]) {
-        loadingAnimation?.stopLoading()
+        activityIndicator.removeFromSuperview()
         self.cityList = cityList
         filteredList = cityList
+        let guide = view.safeAreaLayoutGuide
+        containerView.addSubview(searchBar)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 8).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -8).isActive = true
+        searchBar.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
+    
+        
+        containerView.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: guide.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: 16).isActive = true
+        tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 8).isActive = true
         tableView.reloadData()
     }
     
     func showLoading() {
-        loadingAnimation = LoadingAnimation()
-        loadingAnimation?.addLoader(to: tableView)
+        activityIndicator.frame = self.containerView.frame
+        containerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
 }

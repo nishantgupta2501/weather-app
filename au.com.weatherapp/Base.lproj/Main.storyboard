@@ -26,27 +26,8 @@
                     <view key="view" contentMode="scaleToFill" id="K39-op-pa5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5xt-UK-1Np">
-                                <rect key="frame" x="0.0" y="104" width="414" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="auH-c7-cDy">
-                                <rect key="frame" x="8" y="160" width="414" height="720"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="rFf-t1-h83"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="auH-c7-cDy" firstAttribute="top" secondItem="5xt-UK-1Np" secondAttribute="bottom" id="432-bT-fKa"/>
-                            <constraint firstItem="5xt-UK-1Np" firstAttribute="top" secondItem="rFf-t1-h83" secondAttribute="top" constant="16" id="DqP-29-nVm"/>
-                            <constraint firstItem="auH-c7-cDy" firstAttribute="leading" secondItem="rFf-t1-h83" secondAttribute="leading" constant="8" id="KNd-qp-sR8"/>
-                            <constraint firstItem="5xt-UK-1Np" firstAttribute="leading" secondItem="rFf-t1-h83" secondAttribute="leading" id="M8Z-ZQ-6dj"/>
-                            <constraint firstAttribute="bottom" secondItem="auH-c7-cDy" secondAttribute="bottom" constant="16" id="ROg-ml-VOv"/>
-                            <constraint firstItem="5xt-UK-1Np" firstAttribute="trailing" secondItem="rFf-t1-h83" secondAttribute="trailing" id="ZJB-rJ-naY"/>
-                            <constraint firstItem="auH-c7-cDy" firstAttribute="trailing" secondItem="rFf-t1-h83" secondAttribute="trailing" constant="8" id="nOD-Sv-ZqP"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="v6Z-vT-oAU">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="ca3-si-3Pu">
@@ -57,8 +38,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="K39-op-pa5" id="iry-TG-RHM"/>
-                        <outlet property="searchBar" destination="5xt-UK-1Np" id="KqS-TH-5Ru"/>
-                        <outlet property="tableView" destination="auH-c7-cDy" id="DSK-HD-Mqh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lXV-hS-Fcw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
